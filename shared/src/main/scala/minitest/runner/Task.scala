@@ -18,7 +18,6 @@
 package minitest.runner
 
 import minitest.api._
-import org.scalajs.testinterface.TestUtils
 import sbt.testing.{Task => BaseTask, _}
 import scala.concurrent.duration.Duration
 import minitest.{Await, ExecutionContext, Future, Promise, Platform}

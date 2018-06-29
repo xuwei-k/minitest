@@ -26,8 +26,10 @@ import com.typesafe.sbt.GitVersioning
 addCommandAlias("ci-all",  ";+clean ;+compile ;+test ;+package")
 addCommandAlias("release", ";+publishSigned ;sonatypeReleaseAll")
 
+val Scala211 = "2.11.12"
+
 ThisBuild / scalaVersion := "2.11.12"
-ThisBuild / crossScalaVersions := Seq("2.10.7", "2.11.12", "2.12.4", "2.13.0-M4")
+ThisBuild / crossScalaVersions := Seq("2.10.7", Scala211, "2.12.4", "2.13.0-M4")
 
 def scalaPartV = Def setting (CrossVersion partialVersion scalaVersion.value)
 lazy val crossVersionSharedSources: Seq[Setting[_]] =
@@ -105,8 +107,8 @@ lazy val scalaJSSettings = Seq(
 
 lazy val nativeSettings = Seq(
   nativeLinkStubs := true,
-  scalaVersion := "2.11.12",
-  crossScalaVersions := Seq("2.11.12")
+  scalaVersion := Scala211,
+  crossScalaVersions := Seq(Scala211)
 )
 
 lazy val needsScalaParadise = settingKey[Boolean]("Needs Scala Paradise")
