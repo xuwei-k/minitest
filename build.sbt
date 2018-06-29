@@ -193,3 +193,4 @@ lazy val laws = crossProject(JVMPlatform, JSPlatform, NativePlatform).in(file("l
 
 lazy val lawsJVM    = laws.jvm
 lazy val lawsJS     = laws.js
+// lazy val lawsNative = laws.native

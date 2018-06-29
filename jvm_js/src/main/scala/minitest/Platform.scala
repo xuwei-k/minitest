@@ -12,9 +12,9 @@ trait Platform {
 
   type ExecutionContext = scala.concurrent.ExecutionContext
   val ExecutionContext = scala.concurrent.ExecutionContext
+}
 
+object Platform extends Platform {
   private[minitest] def loadModule(name: String, loader: ClassLoader): AnyRef =
     TestUtils.loadModule(name, loader)
 }
-
-object Platform extends Platform
