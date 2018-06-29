@@ -68,7 +68,7 @@ final class Task(task: TaskDef, cl: ClassLoader) extends BaseTask {
   }
 
   def loadSuite(name: String, loader: ClassLoader): Option[AbstractTestSuite] = {
-    Try(TestUtils.loadModule(name, loader)).toOption
+    Try(loader.asInstanceOf[scala.scalanative.testinterface.PreloadedClassLoader].loadPreloaded(name)).toOption
       .collect { case ref: AbstractTestSuite => ref }
   }
 

@@ -103,6 +103,12 @@ lazy val scalaJSSettings = Seq(
   scalaJSStage in Test := FastOptStage
 )
 
+lazy val nativeSettings = Seq(
+  nativeLinkStubs := true,
+  scalaVersion := "2.11.12",
+  crossScalaVersions := Seq("2.11.12")
+)
+
 lazy val needsScalaParadise = settingKey[Boolean]("Needs Scala Paradise")
 
 lazy val requiredMacroCompatDeps = Seq(
@@ -113,7 +119,7 @@ lazy val requiredMacroCompatDeps = Seq(
   libraryDependencies ++= Seq(
     "org.scala-lang" % "scala-reflect" % scalaVersion.value % Compile,
     "org.scala-lang" % "scala-compiler" % scalaVersion.value % Provided,
-    "org.typelevel" %%% "macro-compat" % "1.1.1",
+    "org.typelevel" %% "macro-compat" % "1.1.1",
   ),
   libraryDependencies ++= {
     if (needsScalaParadise.value) Seq(compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.patch))
@@ -142,18 +148,26 @@ lazy val minitest = crossProject(JVMPlatform, JSPlatform, NativePlatform).in(fil
   )
   .jvmSettings(
     libraryDependencies ++= Seq(
-      "org.scala-sbt" % "test-interface" % "1.0",
-      "org.scala-js" %% "scalajs-stubs" % scalaJSVersion % "provided"
+      "org.scala-sbt" % "test-interface" % "1.0"
     ),
+  )
+  .platformsSettings(JVMPlatform, NativePlatform)(
+    libraryDependencies ++= Seq(
+      "org.scala-js" %% "scalajs-stubs" % scalaJSVersion % "provided"
+    )
   )
   .jsSettings(
     scalaJSSettings,
     libraryDependencies += "org.scala-js" %% "scalajs-test-interface" % scalaJSVersion
   )
+  .nativeSettings(
+    nativeSettings,
+    libraryDependencies += "org.scala-native" %%% "test-interface" % nativeVersion
+  )
 
 lazy val minitestJVM    = minitest.jvm
 lazy val minitestJS     = minitest.js
-// lazy val minitestNative = minitest.native
+lazy val minitestNative = minitest.native
 
 lazy val laws = crossProject(JVMPlatform, JSPlatform, NativePlatform).in(file("laws"))
   .dependsOn(minitest)
@@ -168,7 +182,10 @@ lazy val laws = crossProject(JVMPlatform, JSPlatform, NativePlatform).in(file("l
   .jsSettings(
     scalaJSSettings
   )
+  .nativeSettings(
+    nativeSettings
+  )
 
 lazy val lawsJVM    = laws.jvm
 lazy val lawsJS     = laws.js
-// lazy val lawsNative = laws.native
+lazy val lawsNative = laws.native
