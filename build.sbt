@@ -26,7 +26,7 @@ import com.typesafe.sbt.GitVersioning
 addCommandAlias("ci-all",  ";+clean ;+compile ;+test ;+package")
 addCommandAlias("release", ";+publishSigned ;sonatypeReleaseAll")
 
-ThisBuild / scalaVersion := "2.12.4"
+ThisBuild / scalaVersion := "2.11.12"
 ThisBuild / crossScalaVersions := Seq("2.10.7", "2.11.12", "2.12.4", "2.13.0-M4")
 
 def scalaPartV = Def setting (CrossVersion partialVersion scalaVersion.value)
@@ -132,7 +132,7 @@ lazy val requiredMacroCompatDeps = Seq(
 )
 
 lazy val minitestRoot = project.in(file("."))
-  .aggregate(minitestJVM, minitestJS, lawsJVM, lawsJS)
+  .aggregate(minitestJVM, minitestJS, lawsJVM, lawsJS, minitestNative)
   .settings(
     name := "minitest root",
     Compile / sources := Nil,
@@ -150,6 +150,11 @@ lazy val minitest = crossProject(JVMPlatform, JSPlatform, NativePlatform).in(fil
     libraryDependencies ++= Seq(
       "org.scala-sbt" % "test-interface" % "1.0"
     ),
+  )
+  .platformsSettings(JVMPlatform, JSPlatform)(
+    unmanagedSourceDirectories in Compile += {
+      (baseDirectory in LocalRootProject).value / "jvm_js/src/main/scala"
+    }
   )
   .platformsSettings(JVMPlatform, NativePlatform)(
     libraryDependencies ++= Seq(
@@ -188,4 +193,3 @@ lazy val laws = crossProject(JVMPlatform, JSPlatform, NativePlatform).in(file("l
 
 lazy val lawsJVM    = laws.jvm
 lazy val lawsJS     = laws.js
-lazy val lawsNative = laws.native

@@ -18,5 +18,5 @@
 package minitest
 
 package object api {
-  val DefaultExecutionContext = new minitest.ExecutionContext{} //.global
+  val DefaultExecutionContext = minitest.ExecutionContext.global
 }

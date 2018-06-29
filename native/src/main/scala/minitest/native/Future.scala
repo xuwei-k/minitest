@@ -30,6 +30,10 @@ object Future {
 
 trait ExecutionContext
 
+object ExecutionContext {
+  implicit val global: ExecutionContext = new ExecutionContext{}
+}
+
 object Promise {
   def apply[A](): Promise[A] = new Promise[A]()
 }
