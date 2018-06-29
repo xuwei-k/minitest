@@ -21,7 +21,7 @@ import minitest.api._
 import org.scalajs.testinterface.TestUtils
 import sbt.testing.{Task => BaseTask, _}
 import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, ExecutionContext, Future, Promise}
+import minitest.{Await, ExecutionContext, Future, Promise}
 import scala.util.Try
 
 final class Task(task: TaskDef, cl: ClassLoader) extends BaseTask {

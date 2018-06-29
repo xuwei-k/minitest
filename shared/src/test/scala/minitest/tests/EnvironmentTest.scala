@@ -18,7 +18,7 @@
 package minitest.tests
 
 import minitest.TestSuite
-import scala.concurrent.Future
+import minitest.Future
 import scala.util.Random
 
 object EnvironmentTest extends TestSuite[Int] {

@@ -18,5 +18,5 @@
 package minitest
 
 package object api {
-  val DefaultExecutionContext = scala.concurrent.ExecutionContext.global
+  val DefaultExecutionContext = new minitest.ExecutionContext{} //.global
 }
