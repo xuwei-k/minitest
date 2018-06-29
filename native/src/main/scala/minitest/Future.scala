@@ -1,6 +1,6 @@
 package minitest
 
-import scala.util._
+import scala.util.{Failure, Success, Try}
 
 final class Future[+A] private[minitest] (private[minitest] val value: Try[A]) {
 

@@ -1,6 +1,6 @@
 package minitest
 
-import scala.util._
+import scala.util.{Success, Try}
 
 object Promise {
   def apply[A](): Promise[A] = new Promise[A]()
